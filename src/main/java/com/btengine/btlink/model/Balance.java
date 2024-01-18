@@ -2,7 +2,7 @@ package com.btengine.btlink.model;
 import lombok.*;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -23,6 +23,6 @@ public class Balance {
     @Column(name = "balance")
     private BigDecimal balance;
 
-    private ZonedDateTime  createdAt;
-    private ZonedDateTime  updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime  updatedAt;
 }

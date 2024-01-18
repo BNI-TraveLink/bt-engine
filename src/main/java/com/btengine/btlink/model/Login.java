@@ -7,6 +7,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 //@Data
 @Entity
 @Getter
@@ -16,13 +18,16 @@ import jakarta.persistence.*;
 public class Login {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    private String skLogin;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    public UUID skLogin;
 
-    private String accountNumber;
-    private String userId;
-    private String transactionPassword;
-    private String mpin;
+    @Column
+    public String accountNumber;
+    @Column
+    public String userId;
+    @Column
+    public String transactionPassword;
+    @Column
+    public String mpin;
 }
 

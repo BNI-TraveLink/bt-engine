@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.UUID;
 
 
 //@Data
@@ -18,13 +19,13 @@ import org.hibernate.annotations.GenericGenerator;
 public class Customer {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    private String skCustomer;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID skCustomer;
 
+    @Column
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "fk_login")
+    @JoinColumn(name = "fk_login", nullable = false)
     private Login login;
 }

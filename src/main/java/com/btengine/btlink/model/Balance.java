@@ -14,6 +14,7 @@ import java.util.UUID;
 public class Balance {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name="sk_balance")
     private UUID skBalance;
 

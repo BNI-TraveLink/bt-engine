@@ -19,7 +19,7 @@ public class Stations {
     public UUID skStation;
 
     @Column(name = "station_name", nullable = false)
-    private String price;
+    private String station_name;
 
     @ManyToOne
     @JoinColumn(name = "fk_service", nullable = false)

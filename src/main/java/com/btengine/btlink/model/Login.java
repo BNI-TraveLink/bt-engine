@@ -21,13 +21,13 @@ public class Login {
     @GeneratedValue(strategy = GenerationType.UUID)
     public UUID skLogin;
 
-    @Column
+    @Column(name = "account_number")
     public String accountNumber;
-    @Column
+    @Column(name = "user_id")
     public String userId;
-    @Column
+    @Column(name = "transaction_password")
     public String transactionPassword;
-    @Column
+    @Column(name = "mpin")
     public String mpin;
 }
 

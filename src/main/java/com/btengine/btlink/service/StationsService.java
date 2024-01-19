@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class StationsService {
@@ -19,4 +21,11 @@ public class StationsService {
     public List<Stations> getAllStations() {
         return stationsRepository.findAll();
     }
+
+    public Optional<Stations> getStationBySkStation(UUID skStation) {
+        return stationsRepository.findBySkStation(skStation);
+    }
+
 }
+
+

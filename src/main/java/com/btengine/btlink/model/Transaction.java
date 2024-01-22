@@ -20,11 +20,14 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "fk_customer", nullable = false)
-    private Customer fkCustomer;
+//    private Customer fkCustomer;
+    private Customer customer;
 
     @ManyToOne
     @JoinColumn(name = "fk_service", nullable = false)
-    private Service fkService;
+//    private Service fkService;
+    private Service service;
+
 
 
     @Column(name = "created_at" , nullable = false)

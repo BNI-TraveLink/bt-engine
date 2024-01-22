@@ -1,8 +1,6 @@
 package com.btengine.btlink.service;
 
-import com.btengine.btlink.model.Balance;
-import com.btengine.btlink.model.Login;
-import com.btengine.btlink.model.Transaction;
+import com.btengine.btlink.model.*;
 import com.btengine.btlink.repository.LoginRepository;
 import com.btengine.btlink.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +22,15 @@ public class TransactionService {
         List<Transaction> transactions =  transactionRepository.findAll();
         return transactions;
     }
+    public Optional<Transaction> getTransactionBySkTransaction(UUID skTransaction) {
+        return transactionRepository.findBySkTransaction(skTransaction);
+    }
 
     // ... other service methods
+
+    public List<Transaction> getTransactionsByCustomer(UUID fkCustomer) {
+        return transactionRepository.findAllTransactionsByCustomer(fkCustomer);
+    }
 
 }
 

@@ -4,6 +4,7 @@ package com.btengine.btlink.controller;
 import com.btengine.btlink.model.Login;
 import com.btengine.btlink.service.LoginService;
 //import io.swagger.annotations.ApiOperation;
+import lombok.extern.java.Log;
 import org.apache.hc.client5.http.auth.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,27 @@ public class LoginController {
 
             return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(login);
         } catch (InvalidCredentialsException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PostMapping("/TransactionPassword")
+    public  ResponseEntity<?> authenticateTransactionPassword(@RequestParam String userId, @RequestParam String transactionPassword){
+        try{
+            Login login = loginService.authenticateTransactionPassword(userId,transactionPassword);
+            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(login);
+        }catch (InvalidCredentialsException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PostMapping("/TransactionPasswordHash")
+    public ResponseEntity<?> authenticateTransactionPasswordWithHash(@RequestParam String userId, @RequestParam String transactionPassword){
+        try {
+            Login login = loginService.authenticateTransactionPasswordWithHash(userId, transactionPassword);
+
+            return  ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(login);
+        } catch (InvalidCredentialsException e){
             throw new RuntimeException(e);
         }
     }

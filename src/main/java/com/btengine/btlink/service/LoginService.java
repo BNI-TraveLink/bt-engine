@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.transaction.Transactional;
 import org.apache.hc.client5.http.auth.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.validation.BindValidationException;
 import org.springframework.stereotype.Service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -47,6 +48,8 @@ public class LoginService {
         }
     }
 
+
+
     public Login authenticateLoginWithHash(String userId, String mpin) throws InvalidCredentialsException {
         if (userId.isEmpty() || mpin.isEmpty()) {
             throw new InvalidCredentialsException("User ID or MPIN is empty");
@@ -62,6 +65,36 @@ public class LoginService {
             }
         } else {
             throw new InvalidCredentialsException("User ID or MPIN is false");
+        }
+    }
+
+    public Login authenticateTransactionPassword(String userId, String transactionPassword) throws InvalidCredentialsException{
+        if (userId.isEmpty() || transactionPassword.isEmpty()) {
+            throw new InvalidCredentialsException("User ID or Transaction Password is empty");
+        }
+
+        Optional<Login> login = loginRepository.findUserByTransactionPassword(userId, transactionPassword);
+
+        if (login.isPresent()) {
+            return login.get();
+        } else {
+            throw new InvalidCredentialsException("User ID or Transaction Password is false");
+        }
+    }
+
+    public Login authenticateTransactionPasswordWithHash(String userId, String transactionPassword) throws InvalidCredentialsException{
+        if(userId.isEmpty() || transactionPassword.isEmpty()){
+            throw new InvalidCredentialsException("User ID or Transaction Passwrod is empty");
+        }
+        Optional<Login> login = loginRepository.findUserByUserId(userId);
+        if(login.isPresent()){
+            if(passwordEncoder.matches(transactionPassword, login.get().transactionPassword)){
+                return login.get();
+            }else{
+                throw new InvalidCredentialsException("User ID or Transaction Password is incorrect");
+            }
+        }else{
+            throw new InvalidCredentialsException("User ID or Transaction Password is false");
         }
     }
 

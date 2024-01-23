@@ -15,17 +15,18 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "customer",schema = "bt-link")
+@Table(name = "customer", schema = "bt-link")
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID skCustomer;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "sk_customer", nullable = false)
+    private UUID sk_customer;
 
-    @Column
+    @Column(name = "name", nullable = false)
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "fk_login", nullable = false)
-    private Login login;
+    private Login fkLogin;
 }

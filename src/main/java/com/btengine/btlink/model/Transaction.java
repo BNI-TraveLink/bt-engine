@@ -26,7 +26,7 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "fk_service", nullable = false)
 //    private Service fkService;
-    private Service service;
+    private FacilityService service;
 
 
 
@@ -45,6 +45,9 @@ public class Transaction {
 
     @Column(name = "destination" , nullable = false)
     private String destination;
+
+    @Column(name = "amount" )
+    private  Integer amount;
 
     // Getters and setters for all fields
     // ...

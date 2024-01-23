@@ -15,8 +15,8 @@ import java.util.List;
 @RequestMapping("/customers")
 //@Api(value = "User Management System", description = "Operations pertaining to user in User Management System")
 public class CustomerController {
-
-    private final CustomerService customerService;
+    @Autowired
+   CustomerService customerService;
 
     @Autowired
     public CustomerController(CustomerService customerService) {

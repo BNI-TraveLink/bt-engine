@@ -1,7 +1,9 @@
 package com.btengine.btlink.service;
 
 import com.btengine.btlink.model.Balance;
+import com.btengine.btlink.model.BalanceHistory;
 import com.btengine.btlink.repository.BalanceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,9 @@ public class BalanceService {
         this.balanceRepository = balanceRepository;
     }
 
+    @Autowired
+    BalanceHistoryService balanceHistoryService;
+
     // Inject dependencies in constructor
 
 //    @Transactional
@@ -30,33 +35,23 @@ public class BalanceService {
 //        return balanceRepository.save(balance);
 //    }
 
-    public Balance getBalanceById(String balanceId) {
-        Balance balance = balanceRepository.findById(balanceId).orElse(null);
-        if (balance == null) {
-            // Handle the case where balance is not found
-            // You can either:
-
-            // 1. Return a default value or empty object:
-            // return new BalanceModel(); // Or create an empty BalanceModel
-
-            // 2. Throw a different exception:
-            throw new IllegalStateException("Balance not found with ID: " + balanceId);
-
-            // 3. Log a warning and return null:
-            // log.warn("Balance not found with ID: {}", balanceId);
-            // return null;
-        }
-        return balance;
+    public Balance getBalanceById(UUID balanceId) {
+        return balanceRepository.findBalanceHistoryByBalanceId(balanceId);
     }
 
     // Add other service methods for balance-related logic
 
     @Transactional
-    public void updateBalance(String balanceId, BigDecimal newBalance) {
+//    public void updateBalance(UUID balanceId, BigDecimal newBalance) {
+    public void updateBalance(UUID balanceId, String val) {
         Balance balance = getBalanceById(balanceId);
-        balance.setBalance(newBalance);
+
+        BigDecimal finalBalance = balanceHistoryService.addBalanceHistory(balance.getBalance(), val, balance.getSkBalance());
+
+        balance.setBalance(finalBalance);
         balanceRepository.save(balance);
     }
+
     @Transactional(readOnly = true) // Indicate read-only transaction for efficiency
     public List<Balance> getAllBalances() {
         return balanceRepository.findAll();

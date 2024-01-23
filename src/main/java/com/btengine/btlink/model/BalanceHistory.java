@@ -19,16 +19,16 @@ public class BalanceHistory {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID skBalanceHistory;
 
-    @Column
+    @Column(name = "initial_balance")
     private BigDecimal initialBalance;
 
-    @Column
+    @Column(name = "final_balance")
     private BigDecimal finalBalance;
 
-    @Column
+    @Column(name = "val")
     private String val;
 
-    @Column
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @ManyToOne

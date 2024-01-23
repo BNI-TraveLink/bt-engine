@@ -11,7 +11,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @Table(name = "service",schema = "bt-link")
-public class Service {
+public class FacilityService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

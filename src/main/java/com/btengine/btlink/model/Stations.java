@@ -23,7 +23,7 @@ public class Stations {
 
     @ManyToOne
     @JoinColumn(name = "fk_service", nullable = false)
-    private Service fkService;
+    private FacilityService fkService;
 }
 
 

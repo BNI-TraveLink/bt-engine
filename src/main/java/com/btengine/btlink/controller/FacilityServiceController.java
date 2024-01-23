@@ -1,8 +1,7 @@
 package com.btengine.btlink.controller;
 
-
-//import com.btengine.btlink.model.Stations;
-//import com.btengine.btlink.service.StationsService;
+//import com.btengine.btlink.model.Service;
+//import com.btengine.btlink.service.LinkService;
 ////import io.swagger.annotations.ApiOperation;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.web.bind.annotation.GetMapping;
@@ -14,33 +13,32 @@ package com.btengine.btlink.controller;
 //import java.util.UUID;
 //
 //@RestController
-//@RequestMapping("/stations")
-//public class StationsController {
+//@RequestMapping("/service")
 //
-//    private final StationsService stationsService;
+//public class ServiceController {
+//
+//    private final LinkService linkService;
 //
 //    @Autowired
-//    private StationsController (StationsService stationsService)
-//    { this.stationsService = stationsService; }; // Nama service harus sesuai
+//    private ServiceController (LinkService linkService) { this.linkService = linkService; }; // Nama service harus sesuai
 //
 //    @GetMapping
-//    public List<Stations> getAllStations() { // Nama class harus sesuai
-//        return stationsService.getAllStations(); // Panggil metode getAllStation() pada repository
+//    public List<Service> getAllService() { // Nama class harus sesuai
+//        return linkService.getAllService(); // Panggil metode getAllStation() pada repository
 //    }
 //
-//    // Mendapatkan data berdasarkan sk_station
-//    @GetMapping("/{sk_stations}")
-//    public Stations getStationBySkStation(@PathVariable("sk_stations") UUID skStation) {
-//        return stationsService.getStationBySkStation(skStation)
-//                .orElseThrow(() -> new RuntimeException("Stasiun tidak ditemukan untuk sk_station: " + skStation));
+//    @GetMapping("/{sk_service}")
+//    public Service getServiceBySkService(@PathVariable("sk_service") UUID skService) {
+//        return linkService.getServiceBySkService(skService)
+//                .orElseThrow(() -> new RuntimeException("Service tidak ditemukan untuk sk_service: " + skService));
 //    }
 //
 //}
 
 
 
-import com.btengine.btlink.model.Stations;
-import com.btengine.btlink.service.StationsService;
+import com.btengine.btlink.model.FacilityService;
+import com.btengine.btlink.service.FacilitySvcService;
 //import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,36 +52,36 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/stations")
-public class StationsController {
+@RequestMapping("/service")
+public class FacilityServiceController {
 
     @Autowired
-    private StationsService stationsService;
+    private FacilitySvcService linkService;
 
-    @GetMapping("/{sk_station}")
-    public ResponseEntity<Optional<Stations>> getStationBySkStation(@PathVariable UUID sk_station) {
-        Optional<Stations> station = stationsService.getStationBySkStation(sk_station);
-        if (ObjectUtils.isEmpty(station)) {
+    @GetMapping("/{sk_service}")
+    public ResponseEntity<Optional<FacilityService>> getServiceBySkService(@PathVariable UUID sk_service) {
+        Optional<FacilityService> service = linkService.getServiceBySkService(sk_service);
+        if (ObjectUtils.isEmpty(service)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(null); // atau throw NotFoundException atau sejenisnya
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(station);
+                .body(service);
     }
 
     @GetMapping
-    public ResponseEntity<List<Stations>> getAllStations() {
-        List<Stations> allStations = stationsService.getAllStations();
-        if (allStations.isEmpty()) {
+    public ResponseEntity<List<FacilityService>> getAllServices() {
+        List<FacilityService> allServices = linkService.getAllService();
+        if (allServices.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(null); // atau throw NotFoundException atau sejenisnya
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(allStations);
+                .body(allServices);
     }
 
     // Metode POST, DELETE, dll. dapat ditambahkan sesuai kebutuhan proyek

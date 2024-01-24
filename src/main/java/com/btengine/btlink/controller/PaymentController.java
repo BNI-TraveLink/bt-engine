@@ -58,10 +58,10 @@ public class PaymentController {
                                                @RequestParam String departure,
                                                @RequestParam String destination,
                                                @RequestParam Integer amount,
-                                               @RequestParam Integer price) {
+                                               @RequestParam Integer totalPrice) {
         // Lakukan validasi atau logika bisnis jika diperlukan sebelum menyimpan
         String savedPayment = paymentService.savePayment(userId, serviceName, departure,
-                destination, amount, BigDecimal.valueOf(price));
+                destination, amount, BigDecimal.valueOf(totalPrice));
 
 //        Payment savedPayment = paymentService.savePayment(payment, userId, serviceName, departure,
 //                destination, amount);

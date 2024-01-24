@@ -49,12 +49,9 @@ public class PaymentService {
 
     @Transactional(rollbackFor = Exception.class) // Rollback for any exception
     public String savePayment(String userId, String serviceName, String departure,
-                               String destination, Integer amount, BigDecimal price) {
+                               String destination, Integer amount, BigDecimal totalPrice) {
         // Lakukan validasi atau logika bisnis jika diperlukan sebelum menyimpan
         //insert ke trands
-
-
-            // Perform validation or business logic if necessary before saving
 
         Transaction transaction = new Transaction();
         Payment payment = new Payment();
@@ -80,7 +77,7 @@ public class PaymentService {
 
         payment.setFkTransaction(transaction);
         payment.setFkCustomer(customer.get());
-        payment.setPrice(price);
+        payment.setPrice(totalPrice);
         payment.setActive(false);
         payment.setCreatedAt(LocalDateTime.now());
         payment.setUpdatedAt(null);
@@ -94,7 +91,6 @@ public class PaymentService {
             // Rollback will be performed automatically if an exception occurs
             throw new RuntimeException("Error saving payment", e);
         }
-        //ngambil payment setelah di save
 
 //        get payment = membuat query where kondisi fk_customer = customer.get().getSkCustomer() AND payment.created_at = latest and is active = false =
 //        PaymentRepository.saveByOrderId(transaction);

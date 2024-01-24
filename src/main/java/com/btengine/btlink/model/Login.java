@@ -23,11 +23,16 @@ public class Login {
 
     @Column(name = "account_number")
     public String accountNumber;
+
     @Column(name = "user_id")
     public String userId;
+
     @Column(name = "transaction_password")
     public String transactionPassword;
+
     @Column(name = "mpin")
     public String mpin;
+
+    public String jwt;
 }
 

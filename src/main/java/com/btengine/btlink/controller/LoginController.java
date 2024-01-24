@@ -4,6 +4,7 @@ package com.btengine.btlink.controller;
 import com.btengine.btlink.model.Login;
 import com.btengine.btlink.service.LoginService;
 //import io.swagger.annotations.ApiOperation;
+import io.jsonwebtoken.Jwts;
 import lombok.extern.java.Log;
 import org.apache.hc.client5.http.auth.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.SecretKey;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -70,7 +73,14 @@ public class LoginController {
         try {
             Login login = loginService.authenticateLoginWithHash(userId, mpin);
 
-            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(login);
+            String jwtToken = generateJwtToken(login.getUserId());
+            login.setJwt(jwtToken);
+
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .header("Authorization", "Bearer " + jwtToken)
+                    .body(login);
         } catch (InvalidCredentialsException e) {
             throw new RuntimeException(e);
         }
@@ -83,6 +93,26 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration failed: " + e.getMessage());
+        }
+    }
+
+    public String generateJwtToken(String userId) {
+        SecretKey secretKey = Jwts.SIG.HS256.key().build();
+        long expirationTime = 1000 * 60 * 60;
+        Date issuedAt = new Date();
+        Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);
+
+        try {
+            String token = Jwts.builder()
+                    .subject(userId)
+                    .issuedAt(issuedAt)
+                    .expiration(expirationDate)
+                    .signWith(secretKey)
+                    .compact();
+
+            return token;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate JWT token", e);
         }
     }
 }

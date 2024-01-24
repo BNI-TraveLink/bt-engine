@@ -11,4 +11,5 @@ import java.util.UUID;
 public interface BalanceHistoryRepository extends JpaRepository<BalanceHistory, String> {
     @Query("SELECT bh FROM BalanceHistory bh WHERE bh.balance.skBalance = :fkBalance")
     List<BalanceHistory> findBalanceHistoryByFkBalance(@Param("fkBalance") UUID fkBalance);
+
 }

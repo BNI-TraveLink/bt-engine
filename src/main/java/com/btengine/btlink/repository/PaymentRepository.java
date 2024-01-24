@@ -24,6 +24,9 @@ public interface PaymentRepository extends JpaRepository<Payment, UUID> {
     @Query(value = "SELECT s FROM Service s WHERE s.name = :name",nativeQuery = true)
     FacilityService findServicebyServiceName(@Param("name") String name);
 
+    @Query(value = "select * from \"bt-link\".payment p where p.order_id = :order_id", nativeQuery = true)
+    Payment getPaymentByOderId(@Param("order_id") Long order_id);
+
     @Query(value = "SELECT p.order_Id FROM  \"bt-link\".Payment p " +
             "WHERE p.fk_Customer = :fkCustomer AND p.is_Active = false ORDER BY p.created_At DESC LIMIT 1"
             ,nativeQuery = true)

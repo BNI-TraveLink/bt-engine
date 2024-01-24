@@ -47,4 +47,9 @@ public class TransactionController {
         return ResponseEntity.ok(transactions);
     }
 
+    @GetMapping("/orderId/{order_id}")
+    public Transaction findTransactionByPaymentOrderId(@PathVariable("order_id") Long orderId) {
+        return transactionService.findTransactionByOrderId(orderId)
+                .orElseThrow(() -> new RuntimeException("Transaksi tidak ditemukan untuk order_id: " + orderId));
+    }
 }

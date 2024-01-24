@@ -49,6 +49,8 @@ public class Transaction {
     @Column(name = "amount" )
     private  Integer amount;
 
+    @Column(name = "updated_at" , nullable = true)
+    private LocalDateTime updatedAt;
     // Getters and setters for all fields
     // ...
 

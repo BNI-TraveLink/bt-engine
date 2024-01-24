@@ -1,5 +1,6 @@
 package com.btengine.btlink.repository;
 import com.btengine.btlink.model.Customer;
+import com.btengine.btlink.model.Payment;
 import com.btengine.btlink.model.Stations;
 import com.btengine.btlink.model.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,8 +17,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
     List<Transaction> findAll();
     Optional<Transaction> findBySkTransaction(UUID skTransaction);
 
-    @Query(value = "SELECT * FROM \"bt-link\".\"transaction\" WHERE fk_customer = :fkCustomer", nativeQuery = true)
+        @Query(value = "SELECT * FROM \"bt-link\".\"transaction\" WHERE fk_customer = :fkCustomer", nativeQuery = true)
     List<Transaction> findAllTransactionsByCustomer(@Param("fkCustomer") UUID fkCustomer);
 
-
+    @Query(value = "SELECT t.* FROM \"bt-link\".\"transaction\" t JOIN \"bt-link\".payment p ON t.sk_transaction = p.fk_transaction WHERE p.order_id = :orderId", nativeQuery = true)
+    Optional<Transaction> findTransactionByPaymentOrderId(@Param("orderId") Long orderId);
 }

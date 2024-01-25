@@ -17,6 +17,8 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.List;
 
+//@CrossOrigin("http://192.168.132.78:4200")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/logins")
 public class LoginController {
@@ -73,7 +75,7 @@ public class LoginController {
         try {
             Login login = loginService.authenticateLoginWithHash(userId, mpin);
 
-            String jwtToken = generateJwtToken(login.getUserId());
+            String jwtToken = generateJwtToken(login.getAccountNumber(), login.getUserId());
             login.setJwt(jwtToken);
 
             return ResponseEntity
@@ -96,7 +98,7 @@ public class LoginController {
         }
     }
 
-    public String generateJwtToken(String userId) {
+    public String generateJwtToken(String accountNumber, String userId) {
         SecretKey secretKey = Jwts.SIG.HS256.key().build();
         long expirationTime = 1000 * 60 * 60;
         Date issuedAt = new Date();
@@ -104,7 +106,8 @@ public class LoginController {
 
         try {
             String token = Jwts.builder()
-                    .subject(userId)
+                    .subject(accountNumber)
+                    .claim("name", userId)
                     .issuedAt(issuedAt)
                     .expiration(expirationDate)
                     .signWith(secretKey)

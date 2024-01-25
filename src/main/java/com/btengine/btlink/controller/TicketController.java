@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/tickets")
 public class TicketController {

@@ -22,4 +22,11 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
 
     @Query(value = "SELECT t.* FROM \"bt-link\".\"transaction\" t JOIN \"bt-link\".payment p ON t.sk_transaction = p.fk_transaction WHERE p.order_id = :orderId", nativeQuery = true)
     Optional<Transaction> findTransactionByPaymentOrderId(@Param("orderId") Long orderId);
+
+    @Query(value = "SELECT *\n" +
+            "FROM \"bt-link\".transaction t\n" +
+            "INNER JOIN \"bt-link\".customer c ON t.fk_customer = c.sk_customer\n" +
+            "INNER JOIN \"bt-link\".login l ON c.fk_login = l.sk_login\n" +
+            "WHERE l.user_id = :userId", nativeQuery = true)
+    List<Transaction> findTransactionByLoginUserId(@Param("userId") String userId);
 }

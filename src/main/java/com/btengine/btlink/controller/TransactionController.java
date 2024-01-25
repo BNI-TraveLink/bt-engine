@@ -1,9 +1,6 @@
 package com.btengine.btlink.controller;
 
-import com.btengine.btlink.model.Balance;
-import com.btengine.btlink.model.Customer;
-import com.btengine.btlink.model.Stations;
-import com.btengine.btlink.model.Transaction;
+import com.btengine.btlink.model.*;
 
 import com.btengine.btlink.service.StationsService;
 import com.btengine.btlink.service.TransactionService;
@@ -49,5 +46,17 @@ public class TransactionController {
     public Transaction findTransactionByPaymentOrderId(@PathVariable("order_id") Long orderId) {
         return transactionService.findTransactionByOrderId(orderId)
                 .orElseThrow(() -> new RuntimeException("Transaksi tidak ditemukan untuk order_id: " + orderId));
+    }
+
+    @GetMapping("/userId/{user_id}")
+    public ResponseEntity<?> findTransactionByLoginUserId(@PathVariable("user_id")   String userId) {
+        try {
+            List<Transaction> transactions = transactionService.findTransactionByUserId(userId);
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(transactions);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .body("Error retrieving User Id in Transaction: " + e.getMessage());
+        }
     }
 }

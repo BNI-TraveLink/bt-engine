@@ -35,5 +35,9 @@ public class TransactionService {
     public Optional<Transaction> findTransactionByOrderId(Long orderId) {
         return transactionRepository.findTransactionByPaymentOrderId(orderId);
     }
+
+    public List<Transaction> findTransactionByUserId(String userId) {
+        return transactionRepository.findTransactionByLoginUserId(userId);
+    }
 }
 

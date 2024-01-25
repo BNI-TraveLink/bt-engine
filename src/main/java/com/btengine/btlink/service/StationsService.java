@@ -1,5 +1,6 @@
 package com.btengine.btlink.service;
 
+import com.btengine.btlink.model.Payment;
 import com.btengine.btlink.model.Stations;
 import com.btengine.btlink.repository.StationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;

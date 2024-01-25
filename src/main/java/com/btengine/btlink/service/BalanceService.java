@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 import java.math.BigDecimal;
@@ -49,6 +50,7 @@ public class BalanceService {
         BigDecimal finalBalance = balanceHistoryService.addBalanceHistory(balance.getBalance(), val, balance.getSkBalance());
 
         balance.setBalance(finalBalance);
+        balance.setUpdatedAt(LocalDateTime.now());
         balanceRepository.save(balance);
     }
 

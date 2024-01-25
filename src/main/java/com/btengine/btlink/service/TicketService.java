@@ -34,7 +34,7 @@ public class TicketService {
         List<Ticket> tickets = new ArrayList<Ticket>();
 //        Ticket ticket = new Ticket();
 
-        Payment payment = paymentRepository.getPaymentByOderId(orderId);
+        Payment payment = paymentRepository.getPaymentByOrderId(orderId);
         Transaction transaction =payment.getFkTransaction();
         Integer amountTrans = transaction.getAmount();
 

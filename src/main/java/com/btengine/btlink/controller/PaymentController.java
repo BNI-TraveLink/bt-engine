@@ -18,6 +18,7 @@ import java.util.UUID;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/payment")
+
 public class PaymentController {
 
     @Autowired
@@ -49,8 +50,6 @@ public class PaymentController {
                 .body(allPayment);
     }
 
-//    @PostMapping
-//    public ResponseEntity<Payment> savePayment(
     @PostMapping
     public ResponseEntity<String> savePayment(
 //                                               @RequestBody Payment payment,
@@ -64,13 +63,21 @@ public class PaymentController {
         String savedPayment = paymentService.savePayment(userId, serviceName, departure,
                 destination, amount, BigDecimal.valueOf(totalPrice));
 
-//        Payment savedPayment = paymentService.savePayment(payment, userId, serviceName, departure,
-//                destination, amount);
-
         return ResponseEntity.status(HttpStatus.CREATED)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(savedPayment);
 
     }
     // Metode DELETE, dll. dapat ditambahkan sesuai kebutuhan proyek
+
+    @PutMapping("/updatePayment")
+    public ResponseEntity<?> updatePayment(@RequestParam Long orderId, @RequestParam UUID balanceId, @RequestParam String val) {
+        try {
+            paymentService.updatePayment(orderId, balanceId, val);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Payment updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Payment updated failed: " + e.getMessage());
+        }
+    }
+
 }

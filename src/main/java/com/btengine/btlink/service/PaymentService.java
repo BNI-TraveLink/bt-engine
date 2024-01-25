@@ -47,6 +47,9 @@ public class PaymentService {
         return paymentRepository.findBySkPayment(skPayment);
     }
 
+    @Autowired
+    BalanceService balanceService;
+
     @Transactional(rollbackFor = Exception.class) // Rollback for any exception
     public String savePayment(String userId, String serviceName, String departure,
                                String destination, Integer amount, BigDecimal totalPrice) {
@@ -59,12 +62,6 @@ public class PaymentService {
         Optional<Login> login = loginRepository.findUserByUserId(userId);
         Optional<Customer> customer = customerRepository.findcustomerByFkLogin(login.get().getSkLogin());
         FacilityService facility = facilityServiceRepository.findServicebyServiceName(serviceName);
-
-//        Optional<Login> login = loginRepository.findUserByUserId(userId);
-//        Optional<Customer> customer = login.map(user -> customerRepository.findcustomerByFkLogin(user.getSkLogin().toString()))
-//                .orElseThrow(() -> new RuntimeException("Customer not found"));
-//        FacilityService facility = serviceRepository.findServicebyServiceName(serviceName);
-
 
         transaction.setCustomer(customer.get());
         transaction.setCreatedAt(LocalDateTime.now());
@@ -92,12 +89,27 @@ public class PaymentService {
             throw new RuntimeException("Error saving payment", e);
         }
 
-//        get payment = membuat query where kondisi fk_customer = customer.get().getSkCustomer() AND payment.created_at = latest and is active = false =
-//        PaymentRepository.saveByOrderId(transaction);
+    }
+    @Transactional
+    public void updatePayment(Long orderId, UUID balanceId, String val) {
+        try {
+            balanceService.updateBalance(balanceId, val);
 
-//        String latestOrderId = paymentRepository.findLatestOrderIdByFkCustomer(customer.get().getSk_customer());
-//        return latestOrderId;
+            Payment payment = paymentRepository.getPaymentByOrderId(orderId);
+            if (payment != null) {
+                payment.setActive(true);
+                payment.setUpdatedAt(LocalDateTime.now());
+//                (Timestamp.valueOf(LocalDateTime.now()).toLocalDateTime());
+                payment.getFkTransaction().setActive(true);
+                payment.getFkTransaction().setUpdatedAt(LocalDateTime.now());
+                paymentRepository.save(payment);
 
+            }
+        } catch (Exception e) {
+            // Handle the exception and potentially rethrow it
+            // to trigger a rollback
+            throw new RuntimeException("Error saving Update payment " + e.getMessage(), e);
+        }
     }
 
 }

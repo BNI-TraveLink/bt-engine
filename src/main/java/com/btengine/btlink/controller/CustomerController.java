@@ -5,12 +5,14 @@ package com.btengine.btlink.controller;
 import com.btengine.btlink.model.Customer;
 import com.btengine.btlink.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/customers")
 //@Api(value = "User Management System", description = "Operations pertaining to user in User Management System")

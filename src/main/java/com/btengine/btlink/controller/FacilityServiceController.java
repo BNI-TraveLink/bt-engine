@@ -38,6 +38,7 @@ package com.btengine.btlink.controller;
 
 
 import com.btengine.btlink.model.FacilityService;
+import com.btengine.btlink.model.Stations;
 import com.btengine.btlink.service.FacilitySvcService;
 //import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -85,5 +87,15 @@ public class FacilityServiceController {
                 .body(allServices);
     }
 
-    // Metode POST, DELETE, dll. dapat ditambahkan sesuai kebutuhan proyek
+    @GetMapping("/serviceName")
+    public ResponseEntity<List<Stations>> getStationByServiceName(
+            @RequestParam String serviceName){
+        List<Stations> getStationByServiceName = linkService.getStationsByServiceName(serviceName);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(getStationByServiceName);
+
+    }
+
 }

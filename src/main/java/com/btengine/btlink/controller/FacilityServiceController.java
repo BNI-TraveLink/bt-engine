@@ -48,7 +48,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -59,11 +58,11 @@ import java.util.UUID;
 public class FacilityServiceController {
 
     @Autowired
-    private FacilitySvcService linkService;
+    private FacilitySvcService facilitySvcService;
 
     @GetMapping("/{sk_service}")
     public ResponseEntity<Optional<FacilityService>> getServiceBySkService(@PathVariable UUID sk_service) {
-        Optional<FacilityService> service = linkService.getServiceBySkService(sk_service);
+        Optional<FacilityService> service = facilitySvcService.getServiceBySkService(sk_service);
         if (ObjectUtils.isEmpty(service)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -76,7 +75,7 @@ public class FacilityServiceController {
 
     @GetMapping
     public ResponseEntity<List<FacilityService>> getAllServices() {
-        List<FacilityService> allServices = linkService.getAllService();
+        List<FacilityService> allServices = facilitySvcService.getAllService();
         if (allServices.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -87,15 +86,26 @@ public class FacilityServiceController {
                 .body(allServices);
     }
 
-    @GetMapping("/serviceName")
+    @GetMapping("/getStationByServiceName")
     public ResponseEntity<List<Stations>> getStationByServiceName(
             @RequestParam String serviceName){
-        List<Stations> getStationByServiceName = linkService.getStationsByServiceName(serviceName);
+        List<Stations> getStationByServiceName = facilitySvcService.getStationsByServiceName(serviceName.toUpperCase());
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(getStationByServiceName);
 
+    }
+
+    @GetMapping("/getServiceByName/{name}")
+    public ResponseEntity<FacilityService> getServiceByName(@PathVariable String name){
+        FacilityService facilityService  = facilitySvcService.getServiceByName(name.toUpperCase());
+
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(facilityService);
     }
 
 }

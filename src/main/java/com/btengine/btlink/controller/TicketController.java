@@ -41,8 +41,8 @@ public class TicketController {
     }
 
 
-    @GetMapping("/customer/{orderId}")
-    public List<Ticket> getAmountByOrderId(@PathVariable("orderId") Long orderId) {
+    @GetMapping("/GenerateTicket/{orderId}")
+    public List<Ticket> generateTicketByOrderId(@PathVariable("orderId") Long orderId) {
         return ticketService.generateTicket(orderId);
     }
 }

@@ -36,8 +36,8 @@ public class BalanceService {
 //        return balanceRepository.save(balance);
 //    }
 
-    public Balance getBalanceById(UUID balanceId) {
-        return balanceRepository.findBalanceHistoryByBalanceId(balanceId);
+    public Balance getBalanceById(String userid) {
+        return balanceRepository.getBalanceAllByUserId(userid);
     }
 
     public BigDecimal getbalanceByUserID(String userid){
@@ -48,8 +48,8 @@ public class BalanceService {
 
     @Transactional
 //    public void updateBalance(UUID balanceId, BigDecimal newBalance) {
-    public void updateBalance(UUID balanceId, String val) {
-        Balance balance = getBalanceById(balanceId);
+    public void updateBalance(String userid, String val) {
+        Balance balance = getBalanceById(userid);
 
         BigDecimal finalBalance = balanceHistoryService.addBalanceHistory(balance.getBalance(), val, balance.getSkBalance());
 

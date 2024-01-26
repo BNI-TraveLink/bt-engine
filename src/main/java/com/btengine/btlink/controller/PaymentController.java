@@ -71,9 +71,9 @@ public class PaymentController {
     // Metode DELETE, dll. dapat ditambahkan sesuai kebutuhan proyek
 
     @PutMapping("/updatePayment")
-    public ResponseEntity<?> updatePayment(@RequestParam Long orderId, @RequestParam UUID balanceId, @RequestParam String val) {
+    public ResponseEntity<?> updatePayment(@RequestParam Long orderId, @RequestParam String userid, @RequestParam String val) {
         try {
-            paymentService.updatePayment(orderId, balanceId, val);
+            paymentService.updatePayment(orderId, userid, val);
             return ResponseEntity.status(HttpStatus.CREATED).body("Payment updated successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Payment updated failed: " + e.getMessage());

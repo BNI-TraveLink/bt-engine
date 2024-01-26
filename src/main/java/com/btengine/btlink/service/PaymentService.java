@@ -91,9 +91,9 @@ public class PaymentService {
 
     }
     @Transactional
-    public void updatePayment(Long orderId, UUID balanceId, String val) {
+    public void updatePayment(Long orderId, String userid, String val) {
         try {
-            balanceService.updateBalance(balanceId, val);
+            balanceService.updateBalance(userid, val);
 
             Payment payment = paymentRepository.getPaymentByOrderId(orderId);
             if (payment != null) {

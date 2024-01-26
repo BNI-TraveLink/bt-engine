@@ -1,18 +1,20 @@
 package com.btengine.btlink.model;
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.io.Serial;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
-@NoArgsConstructor
 @Entity
-@Table(schema = "bt-link", name = "payment")
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name = "payment",schema = "bt-link")
 public class Payment {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -43,6 +45,12 @@ public class Payment {
     @Column(name = "created_at" , nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    //mau menggunakan createdAt yang menyesuaikan dengan waktu pada jam komputer
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    @Column(name = "updated_at" , nullable = true)
     private LocalDateTime updatedAt;
 }

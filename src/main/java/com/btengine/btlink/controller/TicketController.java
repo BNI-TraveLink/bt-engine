@@ -40,6 +40,18 @@ public class TicketController {
         }
     }
 
+    @GetMapping("/getTicketsByUserId/{userid}")
+    public ResponseEntity<?> getTicketsByUserId(@PathVariable String userid){
+        try {
+            List<Ticket> tickets = ticketService.getTicketsByUserId(userid);
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(tickets);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .body("Error retrieving balance history: " + e.getMessage());
+        }
+    }
+
 
     @PostMapping("/GenerateTicket/{orderId}")
     public List<Ticket> generateTicketByOrderId(@PathVariable("orderId") Long orderId) {

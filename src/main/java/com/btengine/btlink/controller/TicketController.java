@@ -41,7 +41,7 @@ public class TicketController {
     }
 
 
-    @GetMapping("/GenerateTicket/{orderId}")
+    @PostMapping("/GenerateTicket/{orderId}")
     public List<Ticket> generateTicketByOrderId(@PathVariable("orderId") Long orderId) {
         return ticketService.generateTicket(orderId);
     }

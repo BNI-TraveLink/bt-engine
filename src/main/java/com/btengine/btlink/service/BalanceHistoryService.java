@@ -62,4 +62,8 @@ public class BalanceHistoryService {
         return balanceHistoryRepository.findBalanceHistoryByFkBalance(fkBalance);
     }
 
+    public List<BalanceHistory> findBalanceHistoryByUserId(String userid){
+        return balanceHistoryRepository.findBalanceHistoryByUserId(userid);
+    }
+
 }

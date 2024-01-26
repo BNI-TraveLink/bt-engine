@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "balanceHistory")
+@RequestMapping(value = "/balanceHistory")
 public class BalanceHistoryController {
     private final BalanceHistoryService balanceHistoryService;
 
@@ -39,6 +39,19 @@ public class BalanceHistoryController {
                     .body("Error retrieving balance history: " + e.getMessage());
         }
     }
+
+    @GetMapping("/getHistoryByUserId/{userid}")
+    public ResponseEntity<?> findBalanceHistoryByUserId(@PathVariable String userid) {
+        try {
+            List<BalanceHistory> balanceHistories = balanceHistoryService.findBalanceHistoryByUserId(userid);
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(balanceHistories);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .body("Error retrieving balance history: " + e.getMessage());
+        }
+    }
+
 
     @PostMapping("/addBalanceHistory")
     public ResponseEntity<?> addBalanceHistory(@RequestParam BigDecimal initialBalance, @RequestParam String val, @RequestParam UUID fkBalance){

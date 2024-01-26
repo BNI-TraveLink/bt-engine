@@ -40,6 +40,10 @@ public class BalanceService {
         return balanceRepository.findBalanceHistoryByBalanceId(balanceId);
     }
 
+    public BigDecimal getbalanceByUserID(String userid){
+        return balanceRepository.getBalanceByUserId(userid);
+    }
+
     // Add other service methods for balance-related logic
 
     @Transactional

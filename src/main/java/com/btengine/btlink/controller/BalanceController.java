@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "balance")
+@RequestMapping(value = "/balance")
 public class BalanceController {
 
     @Autowired
@@ -34,5 +34,12 @@ public class BalanceController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration failed: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/getBalanceByUserId/{userid}")
+    public BigDecimal getBalanceByUserId(@PathVariable String userid){
+
+            return balanceService.getbalanceByUserID(userid);
+
     }
 }

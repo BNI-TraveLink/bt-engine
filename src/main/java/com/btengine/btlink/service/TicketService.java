@@ -27,6 +27,10 @@ public class TicketService {
         return ticketRepository.findTicketsByFkTransaction(fkTransaction);
     }
 
+    public List<Ticket> getTicketsByUserId (String userid){
+        return  ticketRepository.getTicketsByUserId(userid);
+    }
+
 //    public List<Ticket> findTicketByOrderId (Integer orderId) {
 //        return ticketRepository.findTicketByOrderId(orderId);
 //    }

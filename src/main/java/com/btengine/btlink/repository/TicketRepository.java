@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,13 @@ import java.util.UUID;
 public interface TicketRepository extends JpaRepository<Ticket, String> {
     @Query("SELECT t FROM Ticket t WHERE t.transaction.skTransaction = :fkTransaction")
     List<Ticket> findTicketsByFkTransaction(@Param("fkTransaction") UUID fkTransaction);
+
+    @Query(value = "select  t.* from \"bt-link\".ticket t " +
+            "inner join \"bt-link\".\"transaction\" tran on t.fk_transaction = tran.sk_transaction " +
+            "inner join \"bt-link\".customer c on tran.fk_customer = c.sk_customer " +
+            "inner join \"bt-link\".login l on c.fk_login = l.sk_login " +
+            "where l.user_id = :userid", nativeQuery = true)
+    List<Ticket> getTicketsByUserId(@Param("userid")String userid);
 
     @Query("SELECT p FROM Payment p WHERE p.orderId = :orderId")  // Use JPQL syntax for entities
     Optional<Payment> findTicketByOrderId(@Param("orderId") Long orderId);  // Use Optional for clarity

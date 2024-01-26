@@ -33,4 +33,8 @@ public class FacilitySvcService {
     public List<Stations> getStationsByServiceName(String name) {
         return stationsRepository.getStationsByServiceName(name);
     }
+
+    public FacilityService getServiceByName(String name){
+        return facilityServiceRepository.findServicebyServiceName(name);
+    }
 }

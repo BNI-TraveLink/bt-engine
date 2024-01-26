@@ -27,9 +27,9 @@ public class BalanceController {
     }
 
     @PostMapping("/updateBalance")
-    public ResponseEntity<?> updateBalance(@RequestParam UUID skBalance, @RequestParam String val) {
+    public ResponseEntity<?> updateBalance(@RequestParam String userid, @RequestParam String val) {
         try {
-            balanceService.updateBalance(skBalance, val);
+            balanceService.updateBalance(userid, val);
             return ResponseEntity.status(HttpStatus.CREATED).body("Balance updated successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration failed: " + e.getMessage());

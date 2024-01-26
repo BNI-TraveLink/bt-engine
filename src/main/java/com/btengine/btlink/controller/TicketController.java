@@ -40,20 +40,6 @@ public class TicketController {
         }
     }
 
-//    @PostMapping
-//    public ResponseEntity<String> generateTicket(
-//            @RequestParam Serial oderId) {
-//        // Lakukan validasi atau logika bisnis jika diperlukan sebelum menyimpan
-//        String generateTicket = TicketService.generateTicket(orderId);
-//
-////        Payment savedPayment = paymentService.savePayment(payment, userId, serviceName, departure,
-////                destination, amount);
-//
-//        return ResponseEntity.status(HttpStatus.CREATED)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(savedPayment);
-//
-//    }
 
     @GetMapping("/customer/{orderId}")
     public List<Ticket> getAmountByOrderId(@PathVariable("orderId") Long orderId) {

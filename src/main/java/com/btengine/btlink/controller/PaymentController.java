@@ -50,7 +50,7 @@ public class PaymentController {
                 .body(allPayment);
     }
 
-    @PostMapping
+    @PostMapping("/GeneratePayment")
     public ResponseEntity<String> savePayment(
 //                                               @RequestBody Payment payment,
                                                @RequestParam String userId,

@@ -14,8 +14,8 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // Atur konfigurasi CORS sesuai kebutuhan
-        config.addAllowedOrigin("http://192.168.132.78:4200"); // Sesuaikan dengan alamat Angular Anda
-//        config.addAllowedOrigin("*"); // Sesuaikan dengan alamat Angular Anda
+//        config.addAllowedOrigin("http://192.168.132.78:4200"); // Sesuaikan dengan alamat Angular Anda
+        config.addAllowedOrigin("*"); // Sesuaikan dengan alamat Angular Anda
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
 

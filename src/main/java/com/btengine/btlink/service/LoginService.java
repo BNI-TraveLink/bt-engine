@@ -7,17 +7,18 @@ import jakarta.transaction.Transactional;
 import org.apache.hc.client5.http.auth.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.validation.BindValidationException;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @Service
-public class LoginService {
+public class LoginService implements UserDetailsService {
 
     @Autowired
     LoginRepository loginRepository;
@@ -51,6 +52,7 @@ public class LoginService {
 
 
     public Login authenticateLoginWithHash(String userId, String mpin) throws InvalidCredentialsException {
+//        System.out.println("userId: " + userId + " mpin: " + mpin);
         if (userId.isEmpty() || mpin.isEmpty()) {
             throw new InvalidCredentialsException("User ID or MPIN is empty");
         }
@@ -139,5 +141,15 @@ public class LoginService {
                 password.matches(".*[a-z].*") &&
                 password.matches(".*\\d.*") &&
                 password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\|,.<>/?].*");
+    }
+
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+        Optional<Login> login = loginRepository.findUserByUserId(userId);
+
+        return new User(
+                login.get().getUserId(),
+                login.get().getMpin(),
+                Collections.emptyList()
+        );
     }
 }

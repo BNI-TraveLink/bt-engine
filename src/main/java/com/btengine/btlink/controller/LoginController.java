@@ -1,6 +1,7 @@
 package com.btengine.btlink.controller;
 
 
+import com.btengine.btlink.config.JwtTokenProvider;
 import com.btengine.btlink.model.Login;
 import com.btengine.btlink.service.LoginService;
 //import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,9 @@ import java.util.List;
 public class LoginController {
     @Autowired
     LoginService loginService;
+
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     public LoginController(LoginService loginService) {
@@ -73,9 +77,13 @@ public class LoginController {
     @PostMapping("/hash")
     public ResponseEntity<?> authenticateLoginWithHash(@RequestParam String userId, @RequestParam String mpin) {
         try {
+            System.out.println("Getting into post mapping /hash");
             Login login = loginService.authenticateLoginWithHash(userId, mpin);
 
-            String jwtToken = generateJwtToken(login.getAccountNumber(), login.getUserId());
+            System.out.println(login);
+
+//            String jwtToken = generateJwtToken(login.getAccountNumber(), login.getUserId());
+            String jwtToken = jwtTokenProvider.generateJwtToken(login.getAccountNumber(), login.getUserId());
             login.setJwt(jwtToken);
 
             return ResponseEntity
@@ -100,6 +108,7 @@ public class LoginController {
 
     public String generateJwtToken(String accountNumber, String userId) {
         SecretKey secretKey = Jwts.SIG.HS256.key().build();
+        System.out.println("secretKey " + secretKey);
         long expirationTime = 1000 * 60 * 60;
         Date issuedAt = new Date();
         Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);

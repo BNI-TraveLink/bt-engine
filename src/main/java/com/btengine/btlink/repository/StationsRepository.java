@@ -20,7 +20,7 @@ public interface StationsRepository extends JpaRepository<Stations, UUID> {
     Optional<Stations> findBySkStation(UUID skStation);
 
     @Query
-    (value = "SELECT * FROM \"bt-link\".stations s INNER JOIN \"bt-link\".service t ON s.fk_service = t.sk_service WHERE t.name = :serviceName", nativeQuery = true)
+    (value = "SELECT * FROM \"bt-link\".stations s INNER JOIN \"bt-link\".service t ON s.fk_service = t.sk_service WHERE t.name = :serviceName ORDER BY s.station_name ASC", nativeQuery = true)
     List<Stations> getStationsByServiceName(@Param("serviceName") String serviceName);
 
 }

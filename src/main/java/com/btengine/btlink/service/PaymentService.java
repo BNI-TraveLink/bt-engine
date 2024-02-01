@@ -102,6 +102,7 @@ public class PaymentService {
 //                (Timestamp.valueOf(LocalDateTime.now()).toLocalDateTime());
                 payment.getFkTransaction().setActive(true);
                 payment.getFkTransaction().setUpdatedAt(LocalDateTime.now());
+                payment.getFkTransaction().setOrderId(orderId);
                 paymentRepository.save(payment);
 
             }

@@ -70,7 +70,7 @@ public class PaymentController {
     }
     // Metode DELETE, dll. dapat ditambahkan sesuai kebutuhan proyek
 
-    @PutMapping("/updatePayment")
+    @PostMapping("/updatePayment")
     public ResponseEntity<?> updatePayment(@RequestParam Long orderId, @RequestParam String userid, @RequestParam String val) {
         try {
             paymentService.updatePayment(orderId, userid, val);

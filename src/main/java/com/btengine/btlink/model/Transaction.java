@@ -54,4 +54,6 @@ public class Transaction {
     // Getters and setters for all fields
     // ...
 
+    @Column(name = "order_id")
+    private Long orderId; // Nullable by default
 }

@@ -18,4 +18,7 @@ public interface LoginRepository extends JpaRepository<Login, String> {
 
     @Query("SELECT l FROM Login l WHERE l.userId = :userId")
     Optional<Login> findUserByUserId(@Param("userId") String userId);
+
+    @Query("SELECT l FROM Login l WHERE l.accountNumber = :accountNumber")
+    Optional<Login> findUserByAccountNumber(@Param("accountNumber") String accountNumber);
 }

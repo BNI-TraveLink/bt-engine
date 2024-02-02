@@ -1,6 +1,7 @@
 package com.btengine.btlink.controller;
 
 
+import com.btengine.btlink.config.JwtTokenProvider;
 import com.btengine.btlink.model.Login;
 import com.btengine.btlink.service.LoginService;
 //import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,9 @@ import java.util.List;
 public class LoginController {
     @Autowired
     LoginService loginService;
+
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     public LoginController(LoginService loginService) {
@@ -75,7 +79,8 @@ public class LoginController {
         try {
             Login login = loginService.authenticateLoginWithHash(userId, mpin);
 
-            String jwtToken = generateJwtToken(login.getAccountNumber(), login.getUserId());
+//            String jwtToken = generateJwtToken(login.getAccountNumber(), login.getUserId());
+            String jwtToken = jwtTokenProvider.generateJwtToken(login.getAccountNumber(), login.getUserId());
             login.setJwt(jwtToken);
 
             return ResponseEntity

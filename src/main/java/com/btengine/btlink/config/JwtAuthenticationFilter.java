@@ -22,14 +22,12 @@ import java.io.IOException;
 // Validate the JWT Token and Provides user details to Spring Security for Authentication
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private JwtTokenProvider jwtTokenProvider;
 
-    private UserDetailsService userDetailsService;
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
 
-    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, UserDetailsService userDetailsService) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.userDetailsService = userDetailsService;
-    }
+    @Autowired
+    UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -52,9 +50,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             try {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                System.out.println("USER:");
-                System.out.println(userDetails);
-                System.out.println("KELAR USER");
 
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,

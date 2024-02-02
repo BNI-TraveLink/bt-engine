@@ -18,7 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.*;
 
 @Service
-public class LoginService implements UserDetailsService {
+public class LoginService {
 
     @Autowired
     LoginRepository loginRepository;
@@ -52,7 +52,6 @@ public class LoginService implements UserDetailsService {
 
 
     public Login authenticateLoginWithHash(String userId, String mpin) throws InvalidCredentialsException {
-//        System.out.println("userId: " + userId + " mpin: " + mpin);
         if (userId.isEmpty() || mpin.isEmpty()) {
             throw new InvalidCredentialsException("User ID or MPIN is empty");
         }
@@ -141,15 +140,5 @@ public class LoginService implements UserDetailsService {
                 password.matches(".*[a-z].*") &&
                 password.matches(".*\\d.*") &&
                 password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\|,.<>/?].*");
-    }
-
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        Optional<Login> login = loginRepository.findUserByUserId(userId);
-
-        return new User(
-                login.get().getUserId(),
-                login.get().getMpin(),
-                Collections.emptyList()
-        );
     }
 }

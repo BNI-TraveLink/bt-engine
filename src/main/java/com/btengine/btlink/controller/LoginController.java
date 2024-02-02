@@ -77,10 +77,7 @@ public class LoginController {
     @PostMapping("/hash")
     public ResponseEntity<?> authenticateLoginWithHash(@RequestParam String userId, @RequestParam String mpin) {
         try {
-            System.out.println("Getting into post mapping /hash");
             Login login = loginService.authenticateLoginWithHash(userId, mpin);
-
-            System.out.println(login);
 
 //            String jwtToken = generateJwtToken(login.getAccountNumber(), login.getUserId());
             String jwtToken = jwtTokenProvider.generateJwtToken(login.getAccountNumber(), login.getUserId());
@@ -108,7 +105,6 @@ public class LoginController {
 
     public String generateJwtToken(String accountNumber, String userId) {
         SecretKey secretKey = Jwts.SIG.HS256.key().build();
-        System.out.println("secretKey " + secretKey);
         long expirationTime = 1000 * 60 * 60;
         Date issuedAt = new Date();
         Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);

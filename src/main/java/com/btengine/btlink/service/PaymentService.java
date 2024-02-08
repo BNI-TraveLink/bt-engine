@@ -1,10 +1,6 @@
 package com.btengine.btlink.service;
 
-import com.btengine.btlink.model.Customer;
-import com.btengine.btlink.model.Login;
-import com.btengine.btlink.model.Payment;
-import com.btengine.btlink.model.Transaction;
-import com.btengine.btlink.model.FacilityService;
+import com.btengine.btlink.model.*;
 import com.btengine.btlink.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

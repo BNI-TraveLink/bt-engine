@@ -12,6 +12,7 @@ import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @CrossOrigin("*")
@@ -57,6 +58,16 @@ public class TransactionController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .contentType(MediaType.TEXT_PLAIN)
                     .body("Error retrieving User Id in Transaction: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/doneTransaction")
+    public ResponseEntity<?> donePayment(@RequestParam UUID skTransaction){
+        try {
+             Optional<Transaction> transaction= transactionService.doneTransaction(skTransaction);
+            return  ResponseEntity.status(HttpStatus.CREATED).body(transaction);
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Transaction And Tickets Update failed: " + e.getMessage());
         }
     }
 }

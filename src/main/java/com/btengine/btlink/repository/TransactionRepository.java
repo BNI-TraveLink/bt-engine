@@ -27,6 +27,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
             "FROM \"bt-link\".transaction t\n" +
             "INNER JOIN \"bt-link\".customer c ON t.fk_customer = c.sk_customer\n" +
             "INNER JOIN \"bt-link\".login l ON c.fk_login = l.sk_login\n" +
-            "WHERE l.user_id = :userId " , nativeQuery = true)
+            "WHERE l.user_id = :userId AND t.order_id IS NOT NULL", nativeQuery = true)
     List<Transaction> findTransactionByLoginUserId(@Param("userId") String userId);
 }
